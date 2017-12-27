@@ -6,6 +6,7 @@
 from time import time
 import hashlib
 import json
+from 
 
 class Blockchain(object):
     def __init__(self):
@@ -23,7 +24,7 @@ class Blockchain(object):
         :return: <dict> dictionary representation of new block. 
         """ 
         block = {
-            'index' : ,
+            'index' : len(self.chain) + 1,
             'timestamp' : time(),
             'transactions' : self.cur_trans,
             'proof' : proof,
@@ -64,9 +65,11 @@ class Blockchain(object):
     def hash_block(block):
         """Hashes a block of data using SHA-256 
         :param block: <dict> block of data
-        :return: <str> hash of the blocks data"""
+        :return: <str> SHA-256 hash of the blocks data"""
        
-       # Dictionaries are not sorted by default, so we must do that first. 
+        # Dictionaries are not sorted by default, so we must do that first. 
+        block_string = json.dumps(block, sort_keys=True).encode()
+        return hashlib.sha256(block_string).hexdigest()
 
     @property
     def last_block(self):
