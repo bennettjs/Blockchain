@@ -12,6 +12,7 @@
 
 from time import time
 import hashlib
+import json
 from flask import Flask
 from flask import jsonify
 from flask import request
@@ -162,7 +163,7 @@ def mine():
     # Not implementing a coin for mining payment yet...
 
     # Create new block 
-    prev_hash = blockchain.hash(last_block)
+    prev_hash = blockchain.hash_block(last_block)
     block = blockchain.new_block(proof, prev_hash)
 
     # Build response:
