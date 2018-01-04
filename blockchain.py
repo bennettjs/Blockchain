@@ -149,12 +149,33 @@ def new_transaction():
 
 @app.route('/mine', methods=['GET'])
 def mine():
-"""
-1) Calculate proof of work.
-2) Reward miner by adding transaction
-3) Create new block on the chain.
-"""
-    
+    """
+    1) Calculate proof of work.
+    2) Reward miner by adding transaction
+    3) Create new block on the chain.
+    """
+    # Proof of work:
+    last_block = blockchain.last_block
+    last_proof = last_block['proof']
+    proof = blockchain.proof_of_work(last_proof)
+
+    # Not implementing a coin for mining payment yet...
+
+    # Create new block 
+    prev_hash = blockchain.hash(last_block)
+    block = blockchain.new_block(proof, prev_hash)
+
+    # Build response:
+    response = {
+        'message': "New block created",
+        'index': block['index'],
+        'transaction': block['transactions'],
+        'proof': block['proof'], # could be proof
+        'prev_hash': block['prev_hash'] # prev_hash  
+        }
+
+    return jsonify(response), 200
+
 
 
 if __name__ == '__main__':
